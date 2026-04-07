@@ -1,5 +1,8 @@
 name: budgeteria-ui
 region: fra
+domains:
+- domain: budgeteria.online
+  type: PRIMARY
 static_sites:
 - name: ui
   github:
