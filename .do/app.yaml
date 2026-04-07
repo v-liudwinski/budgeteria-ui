@@ -17,6 +17,6 @@ static_sites:
   - key: VITE_AUTH0_AUDIENCE
     value: https://api.budgeteria.online/
   - key: VITE_API_BASE_URL
-    value: ""
+    value: https://budgeteria-api-28rux.ondigitalocean.app/api
   - key: VITE_USE_MOCKS
     value: "false"
