@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Sign In — Budgeteria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-blue: #7DD3FC;
+      --brand-pink: #F9A8D4;
+      --brand-bg: #F0F9FF;
+      --brand-surface: #FFFFFF;
+      --brand-border: #E0F2FE;
+      --brand-navy: #1E3A5F;
+      --brand-muted: #94A3B8;
+      --brand-success: #34D399;
+      --brand-danger: #FB7185;
+      --shadow-soft: 0 2px 16px 0 rgba(125, 211, 252, 0.10);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--brand-bg);
+      color: var(--brand-navy);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
+    }
+
+    /* Decorative blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(60px);
+    }
+    .blob-1 {
+      width: 18rem; height: 18rem;
+      background: rgba(125, 211, 252, 0.2);
+      top: 0; left: 0;
+      transform: translate(-50%, -50%);
+    }
+    .blob-2 {
+      width: 24rem; height: 24rem;
+      background: rgba(249, 168, 212, 0.2);
+      bottom: 0; right: 0;
+      transform: translate(33%, 33%);
+    }
+    .blob-3 {
+      width: 10rem; height: 10rem;
+      background: rgba(125, 211, 252, 0.1);
+      top: 33%; right: 25%;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card */
+    .login-card {
+      position: relative;
+      background: var(--brand-surface);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--brand-border);
+      padding: 2rem;
+      width: 100%;
+      max-width: 24rem;
+      animation: fade-in-up 0.4s ease-out both;
+    }
+
+    /* Logo area */
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 4rem; height: 4rem;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, rgba(125,211,252,0.2), rgba(249,168,212,0.2));
+      margin-bottom: 0.75rem;
+      animation: bounce-slow 2s ease-in-out infinite;
+    }
+    .logo-icon svg {
+      width: 2rem; height: 2rem;
+      stroke: var(--brand-blue);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .logo-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .logo-subtitle {
+      color: var(--brand-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Error banner */
+    .error-banner {
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      color: #BE123C;
+      margin-bottom: 1rem;
+      word-break: break-word;
+    }
+
+    /* Form fields */
+    .field { margin-bottom: 0.875rem; }
+    .field label {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--brand-navy);
+      margin-bottom: 0.375rem;
+    }
+    .field input {
+      width: 100%;
+      background: var(--brand-bg);
+      border: 1px solid var(--brand-border);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: var(--brand-navy);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field input::placeholder {
+      color: rgba(148, 163, 184, 0.6);
+    }
+    .field input:focus {
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.25);
+    }
+
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
+      color: #FFFFFF;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(125, 211, 252, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--brand-bg);
+      border: 1px solid var(--brand-border);
+      color: var(--brand-navy);
+    }
+    .btn-secondary:hover {
+      background: var(--brand-surface);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .btn-google {
+      background: var(--brand-surface);
+      border: 1px solid var(--brand-border);
+      color: var(--brand-navy);
+      font-weight: 500;
+    }
+    .btn-google:hover {
+      background: var(--brand-bg);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .divider span {
+      color: var(--brand-muted);
+      font-size: 0.75rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--brand-border);
+    }
+
+    /* Toggle link */
+    .toggle-link {
+      text-align: center;
+      margin-top: 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--brand-muted);
+    }
+    .toggle-link a {
+      color: var(--brand-blue);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Features */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--brand-border);
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--brand-muted);
+    }
+    .feature-icon {
+      width: 1.75rem; height: 1.75rem;
+      border-radius: 0.5rem;
+      background: var(--brand-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feature-icon svg {
+      width: 0.875rem; height: 0.875rem;
+      stroke: var(--brand-blue);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .footer-text {
+      color: var(--brand-muted);
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+
+    /* Forgot password link */
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--brand-blue);
+      text-decoration: none;
+      margin-top: -0.375rem;
+      margin-bottom: 0.875rem;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* Tab bar */
+    .tabs {
+      display: flex;
+      background: var(--brand-bg);
+      border-radius: 0.75rem;
+      padding: 0.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--brand-muted);
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .tab.active {
+      background: var(--brand-surface);
+      color: var(--brand-navy);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="login-card">
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <!-- Paw print icon -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="4" r="2"/>
+          <circle cx="4.5" cy="9" r="2"/>
+          <circle cx="17.5" cy="9" r="2"/>
+          <path d="M8 14.5c0-2.5 2-4.5 4-4.5s4 2 4 4.5c0 1.5-1 3.5-4 3.5s-4-2-4-3.5z"/>
+        </svg>
+      </div>
+      <div class="logo-title">Budgeteria</div>
+      <div class="logo-subtitle">Your family's budget companion</div>
+    </div>
+
+    <!-- Auth0 Lock container — replaced by Auth0 widget -->
+    <div id="error-message" class="error-banner" style="display: none;"></div>
+
+    <form id="login-form">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button type="button" class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button type="button" class="tab" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password">
+      </div>
+
+      <a href="#" class="forgot-link" id="forgot-link">Forgot password?</a>
+
+      <button type="submit" class="btn btn-primary" id="submit-btn">Sign In</button>
+    </form>
+
+    <div class="divider"><span>or</span></div>
+
+    <!-- Google -->
+    <button type="button" class="btn btn-google" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18Z" fill="#34A853"/>
+        <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.997 8.997 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332Z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 2.58 9 2.58Z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <span>Smart budget planning with AI insights</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span>Share plans with your whole family</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <span>Track goals from vacation to savings</span>
+      </div>
+    </div>
+
+    <p class="footer-text">Free for families. No credit card needed.</p>
+  </div>
+
+  <script src="https://cdn.auth0.com/js/auth0/9.24/auth0.min.js"></script>
+  <script>
+    // Auth0 configuration — these are injected by Auth0's Universal Login template engine
+    var config = JSON.parse(
+      decodeURIComponent(escape(window.atob('@@config@@')))
+    );
+
+    var params = Object.assign({
+      overrides: { __tenant: config.auth0Tenant, __token_issuer: config.authorizationServer.issuer },
+      domain: config.auth0Domain,
+      clientID: config.clientID,
+      redirectUri: config.callbackURL,
+      responseType: 'code'
+    }, config.internalOptions);
+
+    var webAuth = new auth0.WebAuth(params);
+
+    var currentTab = 'login';
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+      document.getElementById('submit-btn').textContent = tab === 'login' ? 'Sign In' : 'Create Account';
+      document.getElementById('forgot-link').style.display = tab === 'login' ? '' : 'none';
+      document.getElementById('password').placeholder = tab === 'login' ? 'Your password' : 'Create a password (min 8 chars)';
+      document.getElementById('password').autocomplete = tab === 'login' ? 'current-password' : 'new-password';
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('error-message');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    // Form submit
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      document.getElementById('error-message').style.display = 'none';
+      document.getElementById('submit-btn').textContent = currentTab === 'login' ? 'Signing in...' : 'Creating account...';
+
+      if (currentTab === 'signup') {
+        webAuth.redirect.signupAndLogin({
+          connection: 'Username-Password-Authentication',
+          email: email,
+          password: password
+        }, function (err) {
+          document.getElementById('submit-btn').textContent = 'Create Account';
+          if (err) showError(err.description || err.message || 'Sign up failed');
+        });
+      } else {
+        webAuth.login({
+          realm: 'Username-Password-Authentication',
+          email: email,
+          password: password
+        }, function (err) {
+          document.getElementById('submit-btn').textContent = 'Sign In';
+          if (err) showError(err.description || err.message || 'Wrong email or password');
+        });
+      }
+    });
+
+    // Google
+    document.getElementById('google-btn').addEventListener('click', function () {
+      webAuth.authorize({ connection: 'google-oauth2' });
+    });
+
+    // Forgot password
+    document.getElementById('forgot-link').addEventListener('click', function (e) {
+      e.preventDefault();
+      var email = document.getElementById('email').value;
+      if (!email) {
+        showError('Enter your email first, then click "Forgot password?"');
+        return;
+      }
+      document.getElementById('error-message').style.display = 'none';
+      webAuth.changePassword({
+        connection: 'Username-Password-Authentication',
+        email: email
+      }, function (err) {
+        if (err) {
+          showError(err.description || err.message || 'Could not send reset email');
+        } else {
+          showError('');
+          var el = document.getElementById('error-message');
+          el.style.display = 'block';
+          el.style.background = '#ECFDF5';
+          el.style.borderColor = '#A7F3D0';
+          el.style.color = '#065F46';
+          el.textContent = 'Password reset email sent! Check your inbox.';
+        }
+      });
+    });
+
+    // If signup was requested via screen_hint
+    if (config.extraParams && config.extraParams.screen_hint === 'signup') {
+      switchTab('signup');
+    }
+  </script>
+</body>
+</html>

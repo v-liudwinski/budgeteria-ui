@@ -1,8 +1,8 @@
-export function getGreeting(): string {
+export function getGreeting(): 'morning' | 'afternoon' | 'evening' {
   const hour = new Date().getHours()
-  if (hour < 12) return 'Morning'
-  if (hour < 17) return 'Afternoon'
-  return 'Evening'
+  if (hour < 12) return 'morning'
+  if (hour < 17) return 'afternoon'
+  return 'evening'
 }
 
 export function formatDisplayDate(isoDate: string): string {

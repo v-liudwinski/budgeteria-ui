@@ -426,3 +426,9 @@ dist/
 
 # Superpowers brainstorm session files
 .superpowers/
+
+# Claude Code
+.claude/
+
+# nwave tool config
+.nwave/

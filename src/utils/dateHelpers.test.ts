@@ -4,19 +4,19 @@ import { getGreeting, formatDisplayDate, toMonthKey } from './dateHelpers'
 describe('getGreeting', () => {
   afterEach(() => vi.useRealTimers())
 
-  it('returns Morning for 9am', () => {
+  it('returns morning for 9am', () => {
     vi.setSystemTime(new Date('2026-03-29T09:00:00'))
-    expect(getGreeting()).toBe('Morning')
+    expect(getGreeting()).toBe('morning')
   })
 
-  it('returns Afternoon for 2pm', () => {
+  it('returns afternoon for 2pm', () => {
     vi.setSystemTime(new Date('2026-03-29T14:00:00'))
-    expect(getGreeting()).toBe('Afternoon')
+    expect(getGreeting()).toBe('afternoon')
   })
 
-  it('returns Evening for 7pm', () => {
+  it('returns evening for 7pm', () => {
     vi.setSystemTime(new Date('2026-03-29T19:00:00'))
-    expect(getGreeting()).toBe('Evening')
+    expect(getGreeting()).toBe('evening')
   })
 })
 

@@ -10,11 +10,127 @@
 }
 
 body {
-  background-color: #020817;
-  color: #f8fafc;
+  background-color: #F0F9FF;
+  color: #1E3A5F;
   font-family: 'Inter', sans-serif;
 }
 
 /* Hide scrollbar but keep scroll */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Gradient text helper */
+.text-gradient {
+  background: linear-gradient(135deg, #7DD3FC, #F9A8D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Slow bounce for mascot */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Fade-in on mount */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+/* Stagger delay helpers */
+.delay-75  { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Slide-up for bottom sheets */
+@keyframes slide-up {
+  0%   { opacity: 0; transform: translateY(80px) scale(0.96); }
+  40%  { opacity: 0.8; }
+  70%  { transform: translateY(-3px) scale(1.003); }
+  85%  { transform: translateY(1px) scale(0.999); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-slide-up {
+  animation: slide-up 0.65s cubic-bezier(0.22, 0.68, 0, 1.2) both;
+}
+
+/* Scale-in for modals */
+@keyframes scale-in {
+  0%   { opacity: 0; transform: scale(0.85); }
+  40%  { opacity: 0.8; }
+  70%  { transform: scale(1.01); }
+  85%  { transform: scale(0.998); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in {
+  animation: scale-in 0.55s cubic-bezier(0.22, 0.68, 0, 1.2) both;
+}
+
+/* Fade-in overlay — starts before sheet so backdrop is ready */
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ── Bubble animations ────────────────────────────────────────── */
+
+/* Pop-in when the page loads */
+@keyframes bubble-appear {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Gentle organic drift — simulates floating in liquid */
+@keyframes bubble-drift {
+  0%   { transform: translate(0, 0)     rotate(0deg); }
+  25%  { transform: translate(3px, -5px) rotate(1deg); }
+  50%  { transform: translate(-2px, -8px) rotate(-1deg); }
+  75%  { transform: translate(-4px, -3px) rotate(0.5deg); }
+  100% { transform: translate(0, 0)      rotate(0deg); }
+}
+
+.bubble-float {
+  will-change: transform, opacity;
+  /* GPU-composited for smooth animation on mobile */
+  transform: translateZ(0);
+}
+
+/* Reduce motion for accessibility / battery */
+@media (prefers-reduced-motion: reduce) {
+  .bubble-float {
+    animation: bubble-appear 0.3s ease-out forwards !important;
+  }
+}
+
+/* Date input styling for light UI */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.3);
+}
+
+/* Toast enter/exit */
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateY(-12px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toast-exit {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-12px) scale(0.95); }
+}
+.animate-toast-enter {
+  animation: toast-enter 0.3s ease-out both;
+}
+.animate-toast-exit {
+  animation: toast-exit 0.2s ease-in both;
+}

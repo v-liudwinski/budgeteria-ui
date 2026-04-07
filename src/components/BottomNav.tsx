@@ -1,50 +1,47 @@
 import { NavLink } from 'react-router-dom'
+import { Home, CircleDot, PlusCircle, Users, LayoutGrid } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
-type NavItem = { to: string; icon: string; label: string }
+type NavItem = { to: string; icon: LucideIcon; labelKey: string }
 
 const items: NavItem[] = [
-  { to: '/',        icon: '🏠', label: 'Home'     },
-  { to: '/budget',  icon: '💰', label: 'Budget'   },
-  { to: '/log',     icon: '📋', label: 'Expenses' },
-  { to: '/profile', icon: '👤', label: 'Profile'  },
+  { to: '/',       icon: Home,       labelKey: 'nav.dashboard'  },
+  { to: '/budget', icon: CircleDot,  labelKey: 'nav.bubbleBudget' },
+  { to: '/log',    icon: PlusCircle, labelKey: 'nav.logExpense' },
+  { to: '/plans',  icon: LayoutGrid, labelKey: 'nav.myPlans'    },
+  { to: '/family', icon: Users,      labelKey: 'nav.family'     },
 ]
 
 export function BottomNav() {
+  const { t } = useTranslation()
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 md:hidden z-50">
-      <div className="flex items-center justify-around px-2">
-        {items.map((item, i) => {
-          // FAB in the middle (after index 1)
-          if (i === 2) {
-            return (
-              <NavLink
-                key="log-fab"
-                to="/log"
-                aria-label="Log Expense"
-                className="-mt-5 bg-gradient-to-br from-emerald-400 to-emerald-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-emerald-900/40"
-              >
-                ➕
-              </NavLink>
-            )
-          }
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === '/'}
-              aria-label={item.label}
-              className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 py-3 px-4 text-xs font-semibold uppercase tracking-wide transition-colors ${
-                  isActive ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'
-                }`
-              }
-            >
-              <span className="text-xl">{item.icon}</span>
-              <span>{item.label}</span>
-            </NavLink>
-          )
-        })}
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-brand-border md:hidden z-50">
+      <div className="flex items-center justify-around px-1">
+        {items.map(item => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.to === '/'}
+            aria-label={t(item.labelKey)}
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 py-2.5 px-3 text-[10px] font-semibold uppercase tracking-wide transition-colors ${
+                isActive ? 'text-brand-blue' : 'text-brand-muted hover:text-brand-navy'
+              }`
+            }
+          >
+            <item.icon size={20} strokeWidth={isActive(item.to) ? 2.2 : 1.8} />
+            <span>{t(item.labelKey)}</span>
+          </NavLink>
+        ))}
       </div>
     </nav>
   )
+}
+
+// Helper — NavLink doesn't expose isActive outside its render prop,
+// so we check the path manually for the icon strokeWidth.
+function isActive(to: string): boolean {
+  const path = window.location.pathname
+  return to === '/' ? path === '/' : path.startsWith(to)
 }

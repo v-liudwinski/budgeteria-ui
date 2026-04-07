@@ -22,6 +22,6 @@ describe('BottomNav', () => {
   it('highlights Home when on /', () => {
     render(<Wrapper initialPath="/" />)
     const homeLink = screen.getByLabelText('Home')
-    expect(homeLink).toHaveClass('text-emerald-400')
+    expect(homeLink).toHaveClass('text-brand-blue')
   })
 })

@@ -1,4 +1,4 @@
-import type { Currency } from '../context/types'
+import type { Currency } from '../api/types'
 
 export function formatAmount(amount: number, currency: Currency): string {
   return new Intl.NumberFormat(currency.locale, {
